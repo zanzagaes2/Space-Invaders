@@ -30,6 +30,10 @@ public class Controller {
 				+ spaces + sep + "\n\n\n";
 		System.out.print(greeting);
 	}
+	
+	public void printMessage(String message) {
+		System.out.println(message);
+	}
 	 
 	public void run() {
 		Game game = new Game(difficulty, seed);
@@ -46,7 +50,7 @@ public class Controller {
 			System.out.print(prompt);
 			words = in.nextLine().toLowerCase().trim().split ("\\s+");
 			command = CommandGenerator.parseCommand(words);
-			if(command != null && command.execute(game)) { 
+			if(command != null && command.execute(game, null)) { 
                 gameStatus = game.update();
 				drawer.draw();
 			}

@@ -1,5 +1,6 @@
 package tp.p1.game.commands;
 
+import tp.p1.game.Controller;
 import tp.p1.game.Game;
 
 public class ShockwaveCommand extends Command {
@@ -9,8 +10,8 @@ public class ShockwaveCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(Game game) {
-		// game.shockwave();
+	public boolean execute(Game game, Controller controller) {
+		game.shockwave();
 		return true;
 	}
 }

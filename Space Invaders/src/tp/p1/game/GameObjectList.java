@@ -1,5 +1,7 @@
 package tp.p1.game;
 
+import tp.p1.game.info.Entity;
+import tp.p1.game.info.Faction;
 import tp.p1.naves.UCMShip;
 import tp.p1.util.GameEvent;
 import tp.p1.util.GameEventList;
@@ -27,15 +29,6 @@ public class GameObjectList {
 		list[counter++] = newObject;
 	}
 
-	private void deleteAt(int pos) {
-		int i = pos;
-		while (i < counter - 1) {
-			list[i] = list[i + 1];
-			i++;
-		}
-		counter--;
-	}
-
 
 	private void expandList() {
 		GameObject newList[] = new GameObject[size * 2];
@@ -46,8 +39,12 @@ public class GameObjectList {
 		list = newList;
 	}
 
-	public int getLength() {
-		return counter;
+	public int getEnemyShipNumber() {
+		int enemies = 0;
+		for (int i = 0; i < counter; i++)
+			if (list[i].getFaction() == Faction.ENEMY && list[i].getEntity() == Entity.SHIP) 
+				enemies++;
+		return enemies;
 	}
 	
 	public UCMShip getPlayer() {
@@ -58,13 +55,6 @@ public class GameObjectList {
 		GameObject copyList[] = new GameObject[counter];
 		for (int i = 0; i < counter; i++)
 			copyList[i] = list[i];
-		return copyList;
-	}
-
-	public GameObject[] iterEnemies() {
-		GameObject copyList[] = new GameObject[counter-1];
-		for (int i = 0; i < counter-1; i++)
-			copyList[i] = list[i+1];
 		return copyList;
 	}
 
@@ -81,11 +71,10 @@ public class GameObjectList {
 		GameEventList events = new GameEventList();
 		while (i < counter)  {
 			list[i].update(events);
-			if (!list[i].isValid() && i > 0) // Don't delete element 0: player ship
-				deleteAt(i);
+			if (!list[i].isValid() && i > 0) list[i] = list[--counter];
 			else i++;
 		}
-		if (counter == 1) events.add(GameEvent.NO_ENEMY_LEFT);	// Esto hay que hacerlo bien
+		if (getEnemyShipNumber() == 0) events.add(GameEvent.NO_ENEMY_LEFT);
 		return events;
 	}
 }

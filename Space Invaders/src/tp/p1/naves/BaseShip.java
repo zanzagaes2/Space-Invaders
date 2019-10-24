@@ -2,7 +2,7 @@ package tp.p1.naves;
 
 import tp.p1.game.Game;
 import tp.p1.game.GameObject;
-import tp.p1.game.info.EntityType;
+import tp.p1.game.info.Entity;
 import tp.p1.game.info.ShipType;
 import tp.p1.naves.proyectiles.BaseProjectile;
 import tp.p1.util.GameEvent;
@@ -19,7 +19,7 @@ public abstract class BaseShip extends GameObject {
 	}
 	
 	BaseShip(Game game, ShipType type, Location position) {
-		super(game, EntityType.SHIP, type.getFaction(), position);
+		super(game, Entity.SHIP, type.getFaction(), position);
 		this.type = type;
 		this.hp = type.getHp();
 	}
@@ -37,8 +37,8 @@ public abstract class BaseShip extends GameObject {
 	}
 	
 	@Override
-	public void sufferHit(BaseProjectile projectile) {
-		hp -= projectile.getDmg();
+	public void sufferHit(int damage) {
+		hp -= damage;
 		isValid = hp > 0;
 	}
 	

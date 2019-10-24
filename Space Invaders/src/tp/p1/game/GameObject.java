@@ -1,6 +1,6 @@
 package tp.p1.game;
 
-import tp.p1.game.info.EntityType;
+import tp.p1.game.info.Entity;
 import tp.p1.game.info.Faction;
 import tp.p1.game.info.MovementDirection;
 import tp.p1.naves.proyectiles.BaseProjectile;
@@ -8,20 +8,21 @@ import tp.p1.util.GameEventList;
 import tp.p1.util.Location;
 
 public abstract class GameObject {
-	protected EntityType entity;
+	protected Entity entity;
 	protected Faction faction;
 	protected Game game;
 	protected boolean isValid = true;
 	protected Location position;
 	
-	protected GameObject (Game game, EntityType entity, Faction faction, Location position) {
+	
+	protected GameObject (Game game, Entity entity, Faction faction, Location position) {
 		this.game = game;
 		this.entity = entity;
 		this.faction = faction;
 		this.position = new Location(position);
 	}
-	
-	public EntityType getEntity() {
+
+	public Entity getEntity() {
 		return entity;
 	}
 
@@ -50,7 +51,7 @@ public abstract class GameObject {
 	}
 	
 	public abstract void passTurn();
-	public abstract void sufferHit(BaseProjectile projectile);
+	public abstract void sufferHit(int damage);
 	@Override
 	public abstract String toString();
 	public abstract GameEventList update(GameEventList events);

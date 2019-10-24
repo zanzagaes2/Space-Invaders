@@ -1,5 +1,6 @@
 package tp.p1.game.commands;
 
+import tp.p1.game.Controller;
 import tp.p1.game.Game;
 
 public class HelpCommand extends Command {
@@ -20,8 +21,8 @@ public class HelpCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(Game game) {
-		System.out.println(helpMessage);
+	public boolean execute(Game game, Controller controller) {
+		controller.printMessage(helpMessage);
 		return true;
 	}
 

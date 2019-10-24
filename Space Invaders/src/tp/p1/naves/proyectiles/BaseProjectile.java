@@ -2,7 +2,7 @@ package tp.p1.naves.proyectiles;
 
 import tp.p1.game.Game;
 import tp.p1.game.GameObject;
-import tp.p1.game.info.EntityType;
+import tp.p1.game.info.Entity;
 import tp.p1.game.info.ProjectileType;
 import tp.p1.naves.BaseShip;
 import tp.p1.util.GameEventList;
@@ -13,7 +13,7 @@ public abstract class BaseProjectile extends GameObject {
 	protected ProjectileType type;
 
 	public BaseProjectile(Game game, Location initialPos, BaseShip owner, ProjectileType type) {
-		super(game, EntityType.PROJECTILE, owner.getType().getFaction(), initialPos);
+		super(game, Entity.PROJECTILE, owner.getType().getFaction(), initialPos);
 		this.owner = owner;
 		this.type = type;
 	}
@@ -43,14 +43,14 @@ public abstract class BaseProjectile extends GameObject {
 		
 		for (GameObject object: game.getObjects().objectsAt(this.position).iter())
 			if (object.getFaction() != this.faction && object != this) {
-				object.sufferHit(this); 
+				object.sufferHit(this.getDmg()); 
 				isValid = false;
 			}
 		if (!isValid) informOwner();
 	}
 	
 	@Override
-	public void sufferHit(BaseProjectile projectile) {
+	public void sufferHit(int damage) {
 		isValid = false;
 	}
 	

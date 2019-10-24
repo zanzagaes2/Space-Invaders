@@ -1,5 +1,6 @@
 package tp.p1.game.commands;
 
+import tp.p1.game.Controller;
 import tp.p1.game.Game;
 import tp.p1.game.info.MovementDirection;
 
@@ -15,7 +16,7 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(Game game) {
+	public boolean execute(Game game, Controller controller) {
 		String[] words = details.split(" ");
 		MovementDirection direction = MovementDirection.parseDirection(words[0]);
 		int ammount = Integer.parseInt(words[1]);

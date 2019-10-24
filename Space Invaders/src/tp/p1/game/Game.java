@@ -2,8 +2,10 @@ package tp.p1.game;
 
 import java.util.Random;
 
+import tp.p1.game.info.Entity;
 import tp.p1.game.info.GameStatus;
 import tp.p1.game.info.MovementDirection;
+import tp.p1.game.info.ProjectileType;
 import tp.p1.game.info.ShipType;
 import tp.p1.naves.DestroyerShip;
 import tp.p1.naves.RegularShip;
@@ -31,6 +33,7 @@ public class Game {
 
 	private int turn = 0;
 	private Boolean ufo = false;
+	
 	Game(GameDifficulty difficulty, long seed) {
 		objects = new GameObjectList(new UCMShip(this));
 		player = objects.getPlayer();
@@ -48,7 +51,7 @@ public class Game {
 	}
 
 	 private Boolean checkLimit() {
-		for (GameObject object : objects.iterEnemies())
+		for (GameObject object : objects.iter())
 			if (object.isAtLimit())
 				return true;
 		return false;
@@ -75,7 +78,7 @@ public class Game {
 				player.getHp(),
 				turn,
 				points,
-				objects.getLength()-1,
+				objects.getEnemyShipNumber()-1,
 				player.getShockwave() ? 1 :0
 		};
 		return info;
@@ -132,23 +135,21 @@ public class Game {
 		return generator.nextFloat() < probability;
 	}
 
-	/*
 	public void shockwave() {
 		if (player.getShockwave())
-			for (BaseShip enemies: objects.iterEnemies())
-				enemies.sufferHit(ProjectileType.SHOCKWAVE.getDmg());
-		processEvents(ships.update());
+			for (GameObject object: objects.iter())
+				if (object.getEntity() == Entity.SHIP && object.getFaction() != player.getFaction())
+					object.sufferHit(ProjectileType.SHOCKWAVE.getDmg());
 		player.setShockwave(false);
+		processEvents(objects.update());
 	}
-	 */
 	
 	public void setGameStatus(GameStatus gameStatus) {
 		this.gameStatus = gameStatus;
 	}
 	
 	public void setShockwave(boolean b) {
-		objects.getPlayer().setShockwave(b);
-		
+		objects.getPlayer().setShockwave(b);	
 	}
 
 	public void setUFO(boolean b) {
@@ -164,15 +165,11 @@ public class Game {
 		limitReached = checkLimit();
 		if (limitReached) swapDirection();
 		
-		for (GameObject object : objects.iterEnemies()) 
+		for (GameObject object : objects.iter()) 
 				object.passTurn();
 		generateUFO();
 		processEvents(objects.update());
 		turn++;
 		return gameStatus;
 	}
-	
-	
-
-
 }

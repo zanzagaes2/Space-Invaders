@@ -1,5 +1,6 @@
 package tp.p1.game.commands;
 
+import tp.p1.game.Controller;
 import tp.p1.game.Game;
 
 public class ExitCommand extends Command {
@@ -9,7 +10,7 @@ public class ExitCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(Game game) {
+	public boolean execute(Game game, Controller controller) {
 		return true;
 	}
 

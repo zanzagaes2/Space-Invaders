@@ -1,5 +1,6 @@
 package tp.p1.game.commands;
 
+import tp.p1.game.Controller;
 import tp.p1.game.Game;
 
 public abstract class Command {
@@ -18,7 +19,7 @@ public abstract class Command {
 		this.help = help;
 	}
 	
-	public abstract boolean execute(Game game);
+	public abstract boolean execute(Game game, Controller controller);
 	
 	public String helpText(){
 		return details +" : "+ help +"\n";
