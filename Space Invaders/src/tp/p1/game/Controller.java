@@ -21,6 +21,16 @@ public class Controller {
 		this.seed = seed;
 	} 
 	
+	private void printGreeting (GameStatus gameStatus) {
+		String sep = "*****************************";
+		String spaces = "      ";
+		String greeting = "\n\n\n" + spaces + sep + "\n"
+				+ spaces + "*" + spaces + (gameStatus == GameStatus.PLAYER_WINS ? "PLAYER" : "COMPUTER")
+				+ "  WINS" + spaces + "*\n"
+				+ spaces + sep + "\n\n\n";
+		System.out.print(greeting);
+	}
+	 
 	public void run() {
 		Game game = new Game(difficulty, seed);
 		GamePrinter drawer = new GamePrinter(game);
@@ -45,16 +55,6 @@ public class Controller {
 		drawer.draw();
 		in.close();
 		if (option != UserOption.EXIT) printGreeting(gameStatus);
-	}
-	 
-	private void printGreeting (GameStatus gameStatus) {
-		String sep = "*****************************";
-		String spaces = "      ";
-		String greeting = "\n\n\n" + spaces + sep + "\n"
-				+ spaces + "*" + spaces + (gameStatus == GameStatus.PLAYER_WINS ? "PLAYER" : "COMPUTER")
-				+ "  WINS" + spaces + "*\n"
-				+ spaces + sep + "\n\n\n";
-		System.out.print(greeting);
 	}
 
 }

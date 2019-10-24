@@ -3,13 +3,13 @@ package tp.p1.game.commands;
 import tp.p1.game.Game;
 
 public abstract class Command {
-	protected final String name;
-	protected final String shortcut;
+	protected static final String incorrectArgsMsg ="Incorrect argument format";
+	protected static final String incorrectNumArgsMsg ="Incorrect number of arguments";
 	protected final String details;
 	private final String help;
 	
-	protected static final String incorrectNumArgsMsg ="Incorrect number of arguments";
-	protected static final String incorrectArgsMsg ="Incorrect argument format";
+	protected final String name;
+	protected final String shortcut;
 	
 	protected Command(String name, String shortcut, String details, String help) {
 		this.name = name;
@@ -20,13 +20,13 @@ public abstract class Command {
 	
 	public abstract boolean execute(Game game);
 	
+	public String helpText(){
+		return details +" : "+ help +"\n";
+	}
+	
 	protected boolean matchCommandName(String name) {
 		return this.shortcut.equalsIgnoreCase(name) ||
 				this.name.equalsIgnoreCase(name);
-	}
-	
-	public String helpText(){
-		return details +" : "+ help +"\n";
 	}
 	
 	public Command parse(String[] commandWords) {

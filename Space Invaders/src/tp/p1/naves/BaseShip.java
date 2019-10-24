@@ -1,61 +1,45 @@
 package tp.p1.naves;
 
+import tp.p1.game.Game;
+import tp.p1.game.GameObject;
+import tp.p1.game.info.EntityType;
 import tp.p1.game.info.ShipType;
 import tp.p1.naves.proyectiles.BaseProjectile;
 import tp.p1.util.GameEvent;
 import tp.p1.util.GameEventList;
 import tp.p1.util.Location;
 
-public abstract class BaseShip {
+public abstract class BaseShip extends GameObject {
 	protected int hp;
-	protected Location position;
-	protected ShipType type;
-	protected Boolean valid = true;
 	protected BaseProjectile projectile = null;
+	protected ShipType type;
 	
-	BaseShip(ShipType type) {
-		this.type = type;
-		hp = type.getHp();
-		position = new Location(type.getInitialPosition());
+	BaseShip(Game game, ShipType type) {
+		this(game, type, type.getInitialPosition());
 	}
 	
-	BaseShip(ShipType type, Location position) {
+	BaseShip(Game game, ShipType type, Location position) {
+		super(game, EntityType.SHIP, type.getFaction(), position);
 		this.type = type;
-		hp = type.getHp();
-		this.position = new Location(position);
+		this.hp = type.getHp();
 	}
 	
 	public int getHp() {
 		return hp;
 	}
-
-	public Location getPosition() {
-		return position;
-	}
 	
 	public ShipType getType () {
 		return this.type;
-	}
-	
-	public Boolean isValid() {
-		return valid;
-	}
-
-	public void move(Location movement, Boolean timeToMove) {
-		if(timeToMove) position.setPosition(movement);
 	}
 
 	public void projectileImpacted() {
 		projectile = null;
 	}
 	
-	public BaseProjectile shoot () {
-		return null;
-	}
-	
-	public void sufferHit(int impact) {
-		hp -= impact;
-		valid = hp > 0;
+	@Override
+	public void sufferHit(BaseProjectile projectile) {
+		hp -= projectile.getDmg();
+		isValid = hp > 0;
 	}
 	
 	@Override

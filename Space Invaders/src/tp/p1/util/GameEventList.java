@@ -2,8 +2,8 @@ package tp.p1.util;
 
 public class GameEventList {
 	private static int initialSize = 10;
-	private GameEvent list[];
 	private int counter = 0;
+	private GameEvent list[];
 	private int size;
 
 	public GameEventList() {

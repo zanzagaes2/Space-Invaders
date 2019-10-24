@@ -1,17 +1,38 @@
 package tp.p1.util;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
+import tp.p1.game.Game;
+import tp.p1.game.info.GameStatus;
 public enum GameEvent {
-	NO_ENEMY_LEFT, 
+	ENEMY_REACHED_FIRST_LINE, 
+	NO_ENEMY_LEFT,
 	OVNI_DESTROYED,
+	OVNI_OUT_OF_SCREEN,
 	PLAYER_KILLED,
 	POINTS_EARNED;
 	
-	private int quantity = 0;
+	static Map<GameEvent, BiConsumer<Game, GameEvent>> functions = new HashMap<>();
 
-	public int getQuantity() {
-		return quantity;
+	static {
+		functions.put(ENEMY_REACHED_FIRST_LINE, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.COMPUTER_WINS) );
+		functions.put(NO_ENEMY_LEFT, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.PLAYER_WINS) );
+		functions.put(PLAYER_KILLED, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.COMPUTER_WINS) );
+		functions.put(POINTS_EARNED, (Game game, GameEvent event) -> game.addPoints(event.getQuantity()) );
+		functions.put(OVNI_OUT_OF_SCREEN, (Game game, GameEvent event) -> game.setUFO(false) );
+		functions.put(OVNI_DESTROYED, (Game game, GameEvent event) -> {game.setUFO(false); game.setShockwave(true);});
 	}
 
+	public static void processEvent(Game game, GameEvent event) {
+		functions.get(event).accept(game, event);
+	}
+	
+	private int quantity = 0;
+	public int getQuantity() {
+		return quantity;
+	};
+	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}

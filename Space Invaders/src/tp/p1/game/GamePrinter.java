@@ -1,7 +1,5 @@
 package tp.p1.game;
 
-import tp.p1.naves.BaseShip;
-import tp.p1.naves.proyectiles.BaseProjectile;
 import tp.p1.util.Location;
 import tp.p1.util.MyStringUtils;
 
@@ -14,6 +12,38 @@ class GamePrinter {
 		this.game = game;
 	}
 
+	private void cleanScreen() {
+		String empty = " ";
+		for (int i = 0; i < Game.boardDimension.getX(); i++)
+			for (int j = 0; j < Game.boardDimension.getY(); j++)
+				screen[i][j] = empty ;
+	}
+
+	void draw() {
+		cleanScreen();
+		for (GameObject object : game.getObjects().iter())
+			drawAt(object.toString(), object.getPosition());
+
+		drawScreen();
+	}
+
+	private void drawAt(String symbol, Location position) {
+		screen[position.getX()][position.getY()] = symbol;
+	}
+	
+	private void drawScreen() {
+		int info[] = game.getGameInfo();
+		
+		System.out.println(
+				"Life: " + info[0]
+				+ "\nTurns: " + info[1]
+				+ "\nPoints: " + info[2]
+				+ "\nRemaining aliens: " + info[3]
+				+ "\nShockwave: " + (info[4] == 1 ? "YES" : "NO")
+		); 
+		System.out.print(toString());
+	}
+	
 	@Override
 	public String toString() {
 		int numCols = Game.boardDimension.getY();
@@ -39,40 +69,5 @@ class GamePrinter {
 			str.append(lineDelimiter);
 		}
 		return str.toString();
-	}
-
-	private void cleanScreen() {
-		String empty = " ";
-		for (int i = 0; i < Game.boardDimension.getX(); i++)
-			for (int j = 0; j < Game.boardDimension.getY(); j++)
-				screen[i][j] = empty ;
-	}
-
-	private void drawAt(String symbol, Location position) {
-		screen[position.getX()][position.getY()] = symbol;
-	}
-	
-	private void drawScreen() {
-		int info[] = game.getGameInfo();
-		
-		System.out.println(
-				"Life: " + info[0]
-				+ "\nTurns: " + info[1]
-				+ "\nPoints: " + info[2]
-				+ "\nRemaining aliens: " + info[3]
-				+ "\nShockwave: " + (info[4] == 1 ? "YES" : "NO")
-		); 
-		System.out.print(toString());
-	}
-	
-	void draw() {
-		cleanScreen();
-		for (BaseProjectile bomb : game.getProjectiles())
-			drawAt(bomb.toString(), bomb.getPosition());
-
-		for (BaseShip ship : game.getShips())
-			drawAt(ship.toString(), ship.getPosition());
-
-		drawScreen();
 	}
 }
