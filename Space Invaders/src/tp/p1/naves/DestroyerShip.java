@@ -12,12 +12,12 @@ public class DestroyerShip extends AlienShip {
 	}
 	
 	@Override
-	public void passTurn() {
+	public void passTurn(boolean timeToMove) {
 		if(game.randomChance(game.getDifficulty().getShootFrequency())) {
 			BaseProjectile newProjectile = shoot();
 			if (newProjectile != null) game.addProjectile(newProjectile);
 		}
-		super.passTurn();
+		super.passTurn(timeToMove);
 	} 
 	
 	public Projectile shoot() {

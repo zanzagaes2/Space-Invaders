@@ -1,6 +1,7 @@
 package tp.p1.game.commands;
 
 public enum UserOption {
+	COMPRAR("C"),
 	EXIT("E"), 
 	HELP("H"), 
 	LIST("L"), 

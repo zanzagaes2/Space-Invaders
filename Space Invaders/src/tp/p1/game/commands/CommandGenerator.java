@@ -10,9 +10,14 @@ public class CommandGenerator {
 			new MoveCommand(),
 			new ShockwaveCommand(),
 			new ShootCommand(),
-			new UpdateCommand()
+			new UpdateCommand(),
+			new ComprarCommand()
 			};
 	
+	public static Command[] getAvailableCommands() {
+		return availableCommands;
+	}
+
 	public static Command parseCommand (String[] commandWords) {
 		Command commandRead = null;
 		for (Command availableCommand: availableCommands)

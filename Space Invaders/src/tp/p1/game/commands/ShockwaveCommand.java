@@ -11,7 +11,7 @@ public class ShockwaveCommand extends Command {
 
 	@Override
 	public boolean execute(Game game, Controller controller) {
-		game.shockwave();
+		game.shockWave();
 		return true;
 	}
 }

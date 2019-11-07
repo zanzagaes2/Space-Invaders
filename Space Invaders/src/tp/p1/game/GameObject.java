@@ -1,33 +1,25 @@
 package tp.p1.game;
 
 import tp.p1.game.info.Entity;
-import tp.p1.game.info.Faction;
 import tp.p1.game.info.MovementDirection;
-import tp.p1.naves.proyectiles.BaseProjectile;
 import tp.p1.util.GameEventList;
 import tp.p1.util.Location;
 
-public abstract class GameObject {
+public abstract class GameObject implements IAttack {
 	protected Entity entity;
-	protected Faction faction;
 	protected Game game;
 	protected boolean isValid = true;
 	protected Location position;
+
 	
-	
-	protected GameObject (Game game, Entity entity, Faction faction, Location position) {
+	protected GameObject (Game game, Entity entity, Location position) {
 		this.game = game;
 		this.entity = entity;
-		this.faction = faction;
 		this.position = new Location(position);
 	}
 
 	public Entity getEntity() {
 		return entity;
-	}
-
-	public Faction getFaction() {
-		return faction;
 	}
 	
 	public Location getPosition () {
@@ -50,8 +42,7 @@ public abstract class GameObject {
 		position.setPosition(direction.getCoordinates());
 	}
 	
-	public abstract void passTurn();
-	public abstract void sufferHit(int damage);
+	public abstract void passTurn(boolean timeToMove);
 	@Override
 	public abstract String toString();
 	public abstract GameEventList update(GameEventList events);

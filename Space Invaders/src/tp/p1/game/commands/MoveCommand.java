@@ -23,7 +23,7 @@ public class MoveCommand extends Command {
 		
 		if (direction != null)
 			for (int i = 0; i < Math.min(ammount, maximumMovement); i++)
-				game.movePlayer(direction);
+				game.move(direction);
 		return direction != null;
 	}
 

@@ -22,7 +22,8 @@ public class HelpCommand extends Command {
 
 	@Override
 	public boolean execute(Game game, Controller controller) {
-		controller.printMessage(helpMessage);
+		for (Command command: CommandGenerator.getAvailableCommands())
+			controller.printMessage(command.getHelp());
 		return true;
 	}
 

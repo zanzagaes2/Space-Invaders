@@ -19,27 +19,31 @@ public abstract class BaseShip extends GameObject {
 	}
 	
 	BaseShip(Game game, ShipType type, Location position) {
-		super(game, Entity.SHIP, type.getFaction(), position);
+		super(game, Entity.SHIP, position);
 		this.type = type;
 		this.hp = type.getHp();
+	}
+	
+	protected void alterHP(int diff) {
+		hp += diff;
+		isValid &= hp > 0;
 	}
 	
 	public int getHp() {
 		return hp;
 	}
-	
+
 	public ShipType getType () {
 		return this.type;
 	}
-
+	
 	public void projectileImpacted() {
 		projectile = null;
 	}
 	
-	@Override
-	public void sufferHit(int damage) {
-		hp -= damage;
-		isValid = hp > 0;
+	public Boolean receiveExplosionAttack(Integer dmg) {
+		alterHP(-1*dmg);
+		return true;
 	}
 	
 	@Override
@@ -49,12 +53,11 @@ public abstract class BaseShip extends GameObject {
 	
 	public GameEventList update() {
 		GameEventList newEvents = new GameEventList();
-		if (hp <= 0) {
+		if (!isValid()) {
 			GameEvent event = GameEvent.POINTS_EARNED;
 			event.setQuantity(type.getAwardedPoints());
 			newEvents.add(event);
 		}
 		return newEvents;
 	}
-
 }

@@ -7,7 +7,7 @@ public abstract class Command {
 	protected static final String incorrectArgsMsg ="Incorrect argument format";
 	protected static final String incorrectNumArgsMsg ="Incorrect number of arguments";
 	protected final String details;
-	private final String help;
+	protected String help;
 	
 	protected final String name;
 	protected final String shortcut;
@@ -21,8 +21,8 @@ public abstract class Command {
 	
 	public abstract boolean execute(Game game, Controller controller);
 	
-	public String helpText(){
-		return details +" : "+ help +"\n";
+	public String getHelp(){
+		return help;
 	}
 	
 	protected boolean matchCommandName(String name) {

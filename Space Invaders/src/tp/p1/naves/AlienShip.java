@@ -1,6 +1,7 @@
 package tp.p1.naves;
 
 import tp.p1.game.Game;
+import tp.p1.game.IAttack;
 import tp.p1.game.info.ShipType;
 import tp.p1.util.GameEvent;
 import tp.p1.util.GameEventList;
@@ -18,14 +19,30 @@ public class AlienShip extends BaseShip {
 	}
 	
 	@Override
-	public void passTurn() {
-		if (game.isTimeToMove()) move(game.getMovementDirection());
+	public void passTurn(boolean timeToMove) {
+		if (timeToMove) move(game.getObjects().getMovementDirection());
+	}
+	
+	public Boolean receiveMissileAttack(Integer damage) {
+		alterHP(-1*damage);
+		return true;
+	}
+	
+	
+	public Boolean receiveShockWaveAttack(Integer damage) {
+		alterHP(-1*damage);
+		return true;
 	}
 	
 	@Override
 	public GameEventList update(GameEventList events) {
-		if (position.getY() == Game.boardDimension.getY()) 
+		if (position.getX() == Game.boardDimension.getX()-1) 
 			events.add(GameEvent.ENEMY_REACHED_FIRST_LINE);
+		if (hp <= 0) {
+			GameEvent earnedPoints = GameEvent.POINTS_EARNED;
+			earnedPoints.setQuantity(type.getAwardedPoints());
+			events.add(earnedPoints);
+		}
 		return events;
 	}
 	

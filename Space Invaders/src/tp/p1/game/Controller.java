@@ -50,7 +50,7 @@ public class Controller {
 			System.out.print(prompt);
 			words = in.nextLine().toLowerCase().trim().split ("\\s+");
 			command = CommandGenerator.parseCommand(words);
-			if(command != null && command.execute(game, null)) { 
+			if(command != null && command.execute(game, this)) { 
                 gameStatus = game.update();
 				drawer.draw();
 			}

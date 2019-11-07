@@ -1,8 +1,12 @@
 package tp.p1.naves.proyectiles;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 import tp.p1.game.Game;
 import tp.p1.game.GameObject;
 import tp.p1.game.info.Entity;
+import tp.p1.game.info.MovementDirection;
 import tp.p1.game.info.ProjectileType;
 import tp.p1.naves.BaseShip;
 import tp.p1.util.GameEventList;
@@ -13,45 +17,49 @@ public abstract class BaseProjectile extends GameObject {
 	protected ProjectileType type;
 
 	public BaseProjectile(Game game, Location initialPos, BaseShip owner, ProjectileType type) {
-		super(game, Entity.PROJECTILE, owner.getType().getFaction(), initialPos);
+		super(game, Entity.PROJECTILE, initialPos);
 		this.owner = owner;
-		this.type = type;
+		this.type = type;	
 	}
 
-	public int getDmg() {
-		return type.getDmg();
+	private void checkProjectileImpact() {
+		for (GameObject object: game.getObjects().iter())
+			if (object.isValid() && getFilterFunction().apply(object) && 
+					getDmgFunction().apply(object, type.getDmg())) 
+				isValid = false;
 	}
-
+	
+	protected abstract Function<GameObject, Boolean> getFilterFunction();
+	protected abstract BiFunction<GameObject, Integer, Boolean> getDmgFunction();
+	
 	public ProjectileType getType() {
 		return type;
 	}
-	
+
 	public void informOwner() {
 		if (owner != null)
 			owner.projectileImpacted();
 	}
 	
 	public void move() {
-		Location previousPosition = new Location(position);
-		super.move(type.getDirection());
-		if (previousPosition.equals(position)) isValid = false;
+		MovementDirection direction = type.getDirection();
+		if (direction != null) { 
+			Location previousPosition = new Location(position);
+			super.move(type.getDirection());
+			if (previousPosition.equals(position)) isValid = false;
+		}
 	}
-
-	@Override
-	public void passTurn() {
-		move();
-		
-		for (GameObject object: game.getObjects().objectsAt(this.position).iter())
-			if (object.getFaction() != this.faction && object != this) {
-				object.sufferHit(this.getDmg()); 
-				isValid = false;
-			}
-		if (!isValid) informOwner();
+	
+	public Boolean receiveExplosionAttack(Integer dmg) {
+		isValid = false;
+		return true;
 	}
 	
 	@Override
-	public void sufferHit(int damage) {
-		isValid = false;
+	public void passTurn(boolean timeToMove) {
+		move();	
+		checkProjectileImpact();
+		if (!isValid) informOwner();
 	}
 	
 	@Override

@@ -2,8 +2,10 @@ package tp.p1.game.info;
 
 public enum ProjectileType {
 	MISSILE(1, "oo", MovementDirection.UP),
+	SUPERMISSILE(2, "xx", MovementDirection.UP),
 	PROJECTILE(1, ".", MovementDirection.DOWN),
-	SHOCKWAVE(1, "", null);
+	SHOCKWAVE(1, "", null),
+	EXPLOSION(1, "", null);
 
 	private MovementDirection direction;
 	private int dmg;

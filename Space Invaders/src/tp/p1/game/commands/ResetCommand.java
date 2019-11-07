@@ -11,6 +11,7 @@ public class ResetCommand extends Command {
 
 	@Override
 	public boolean execute(Game game, Controller controller) {
+		game.setNewGame();
 		return true;
 	}
 }

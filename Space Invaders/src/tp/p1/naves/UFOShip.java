@@ -19,7 +19,7 @@ public class UFOShip extends BaseShip {
 	}
 	
 	@Override
-	public void passTurn() {
+	public void passTurn(boolean timeToMove) {
 		move();
 	}
 	

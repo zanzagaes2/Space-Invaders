@@ -14,7 +14,7 @@ public class Location {
 		this.setEqual(pos);
 	}
 
-	public boolean equals(Location pos) {
+	public Boolean equals(Location pos) {
 		return x == pos.getX() && y == pos.getY();
 	}
 

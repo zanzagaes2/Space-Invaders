@@ -19,9 +19,9 @@ public enum GameEvent {
 		functions.put(ENEMY_REACHED_FIRST_LINE, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.COMPUTER_WINS) );
 		functions.put(NO_ENEMY_LEFT, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.PLAYER_WINS) );
 		functions.put(PLAYER_KILLED, (Game game, GameEvent event) -> game.setGameStatus(GameStatus.COMPUTER_WINS) );
-		functions.put(POINTS_EARNED, (Game game, GameEvent event) -> game.addPoints(event.getQuantity()) );
-		functions.put(OVNI_OUT_OF_SCREEN, (Game game, GameEvent event) -> game.setUFO(false) );
-		functions.put(OVNI_DESTROYED, (Game game, GameEvent event) -> {game.setUFO(false); game.setShockwave(true);});
+		functions.put(POINTS_EARNED, (Game game, GameEvent event) -> game.receivePoints(event.getQuantity()) );
+		functions.put(OVNI_OUT_OF_SCREEN, (Game game, GameEvent event) -> game.getObjects().setUFO(false) );
+		functions.put(OVNI_DESTROYED, (Game game, GameEvent event) -> {game.getObjects().setUFO(false); game.setShockwave(true);});
 	}
 
 	public static void processEvent(Game game, GameEvent event) {
